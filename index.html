@@ -1,141 +1,235 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ro">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Wanna date me? ❤️</title>
-    <!-- Import beautiful, premium Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pentru Tine ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-pink: #ff4d6d;
-            --secondary-pink: #ff758f;
-            --light-pink: #ffe6ea;
-            --cream: #fff0f3;
-            --text-dark: #590d22;
-        }
-
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            -webkit-tap-highlight-color: transparent;
+            font-family: 'Poppins', sans-serif;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, var(--light-pink) 0%, #ffffff 100%);
+            background: linear-gradient(135deg, #ffe6ea 0%, #ffffff 100%);
             min-height: 100vh;
             display: flex;
-            align-items: center;
             justify-content: center;
-            overflow: hidden; /* Keep button jumps and confetti inside */
+            align-items: center;
+            overflow: hidden;
             position: relative;
         }
 
-        /* Ambient falling hearts background */
-        #bg-hearts-container {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        .falling-heart {
+        /* Floating Hearts Animation */
+        .heart-bg {
             position: absolute;
             top: -10vh;
-            color: rgba(255, 117, 143, 0.4);
+            color: #ff8fab;
+            font-size: 20px;
+            opacity: 0.6;
             animation: fall linear infinite;
-            filter: drop-shadow(0 0 5px rgba(255, 117, 143, 0.2));
+            z-index: 0;
+            pointer-events: none;
+            text-shadow: 0 0 10px rgba(255, 143, 171, 0.5);
         }
 
         @keyframes fall {
-            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
-            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+            to {
+                transform: translateY(110vh) rotate(360deg);
+            }
         }
 
-        /* Glassmorphism Main Card */
+        /* Glassmorphism Card */
         .glass-card {
-            background: rgba(255, 255, 255, 0.6);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.9);
-            box-shadow: 0 20px 50px rgba(255, 77, 109, 0.15), 
-                        inset 0 0 0 1px rgba(255, 255, 255, 0.5);
-            border-radius: 2.5rem;
-            padding: 3rem 2rem;
-            max-width: 90%;
-            width: 450px;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            border-radius: 30px;
+            padding: 40px 30px;
+            box-shadow: 0 8px 32px 0 rgba(255, 143, 171, 0.2);
             text-align: center;
-            z-index: 10;
+            max-width: 450px;
+            width: 90%;
             position: relative;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 10;
+            transition: all 0.5s ease;
         }
 
-        .glass-card::before {
-            content: "✨";
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 1.5rem;
-            opacity: 0.6;
-            animation: twinkle 2s infinite alternate;
-        }
-
-        .glass-card::after {
-            content: "✨";
-            position: absolute;
-            bottom: 20px;
-            right: 20px;
-            font-size: 1.5rem;
-            opacity: 0.6;
-            animation: twinkle 2s infinite alternate-reverse;
-        }
-
-        @keyframes twinkle {
-            0% { transform: scale(0.8); opacity: 0.3; }
-            100% { transform: scale(1.2); opacity: 0.8; }
-        }
-
-        h1 {
+        /* Typography */
+        .title {
             font-family: 'Great Vibes', cursive;
             font-size: 3.5rem;
-            color: var(--primary-pink);
-            margin-bottom: 0.5rem;
-            font-weight: 400;
-            text-shadow: 2px 2px 4px rgba(255, 77, 109, 0.2);
-            line-height: 1.2;
+            color: #d81b60;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(216, 27, 96, 0.15);
         }
 
-        p.question {
+        .subtitle {
             font-size: 1.2rem;
-            color: var(--text-dark);
-            margin-bottom: 2rem;
-            font-weight: 500;
+            color: #880e4f;
+            margin-bottom: 30px;
+            font-weight: 600;
         }
 
-        /* Pulsing Visual Anchor Heart */
-        .heart-container {
-            margin: 0 auto 2.5rem auto;
-            width: 120px;
-            height: 120px;
+        /* Envelop / Steps Logic */
+        .step {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.6s ease;
+        }
+        .step.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Buttons */
+        .btn-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            position: relative;
+            min-height: 60px;
+        }
+
+        button {
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .btn-yes, .activity-btn, .confirm-btn {
+            background: linear-gradient(45deg, #ff8fab, #fb6f92);
+            color: white;
+        }
+
+        .btn-yes:hover, .activity-btn:hover, .confirm-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(251, 111, 146, 0.4);
+        }
+
+        .btn-no {
+            background: white;
+            color: #d81b60;
+            position: absolute; /* Needed for teleportation */
+        }
+
+        /* Activities Grid */
+        .activities-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .activity-btn {
+            padding: 15px;
+            font-size: 1.2rem;
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.8);
+            color: #d81b60;
+            border: 2px solid #ff8fab;
+        }
+        .activity-btn:hover {
+            background: linear-gradient(45deg, #ff8fab, #fb6f92);
+            color: white;
         }
 
-        .main-heart {
-            width: 100%;
-            height: 100%;
-            fill: url(#heartGradient);
-            animation: pulse 1.5s infinite cubic-bezier(0.25, 1, 0.5, 1);
-            filter: drop-shadow(0 10px 15px rgba(255, 77, 109, 0.4));
+        /* Calendar */
+        .calendar-wrapper {
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            padding: 15px;
+        }
+        
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: #d81b60;
+            font-weight: 600;
+        }
+        
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 5px;
+        }
+
+        .day-name {
+            font-size: 0.8rem;
+            color: #ff8fab;
+            font-weight: 600;
+        }
+
+        .calendar-day {
+            padding: 8px 0;
+            font-size: 0.9rem;
+            color: #880e4f;
+            cursor: pointer;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+
+        .calendar-day:hover:not(.empty) {
+            background: #ffb3c6;
+        }
+
+        .calendar-day.selected {
+            background: #d81b60;
+            color: white;
+            box-shadow: 0 4px 10px rgba(216, 27, 96, 0.3);
+        }
+
+        .calendar-day.empty {
+            cursor: default;
+        }
+
+        /* Time Picker */
+        .time-container {
+            margin-top: 20px;
+            margin-bottom: 20px;
+        }
+        
+        input[type="time"] {
+            border: 2px solid #ff8fab;
+            border-radius: 15px;
+            padding: 10px 15px;
+            font-size: 1.1rem;
+            color: #d81b60;
+            font-family: 'Poppins', sans-serif;
+            background: white;
+            outline: none;
+        }
+
+        /* Confetti Canvas */
+        #confetti {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        .heart-icon {
+            font-size: 40px;
+            margin-bottom: 10px;
+            animation: pulse 1.5s infinite;
         }
 
         @keyframes pulse {
@@ -143,387 +237,285 @@
             50% { transform: scale(1.15); }
             100% { transform: scale(1); }
         }
-
-        /* Buttons Container & Styling */
-        .buttons-container {
-            display: flex;
-            justify-content: center;
-            gap: 1.5rem;
-            position: relative;
-            min-height: 55px; /* Reserves space so YES doesn't jump when NO flies away */
-        }
-
-        button {
-            font-family: 'Poppins', sans-serif;
+        
+        .summary-text {
             font-size: 1.1rem;
-            font-weight: 600;
-            padding: 0.8rem 2.5rem;
-            border-radius: 50px;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            outline: none;
-        }
-
-        #yes-btn {
-            background: linear-gradient(45deg, var(--primary-pink), var(--secondary-pink));
-            color: white;
-            box-shadow: 0 8px 20px rgba(255, 77, 109, 0.4);
-            position: relative;
-            overflow: hidden;
-            z-index: 2;
-        }
-
-        #yes-btn::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
-            transition: all 0.4s ease;
-        }
-
-        #yes-btn:hover {
-            transform: scale(1.1) translateY(-3px);
-            box-shadow: 0 12px 25px rgba(255, 77, 109, 0.6);
-        }
-
-        #yes-btn:hover::after {
-            left: 100%;
-        }
-
-        #no-btn {
-            background: white;
-            color: var(--primary-pink);
-            border: 2px solid var(--light-pink);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-            z-index: 1000; /* Stays above everything when absolute */
-        }
-
-        /* Success State UI */
-        .hidden {
-            display: none !important;
-            opacity: 0;
-        }
-
-        #success-view {
-            opacity: 0;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .success-text {
-            font-family: 'Poppins', sans-serif;
-            font-size: 1.1rem;
-            color: var(--text-dark);
-            margin-bottom: 2rem;
+            color: #880e4f;
+            margin: 10px 0;
+            padding: 15px;
+            background: rgba(255,255,255,0.7);
+            border-radius: 15px;
+            text-align: left;
             line-height: 1.6;
-        }
-
-        /* Interactive Love Note */
-        .envelope-wrapper {
-            margin-top: 2rem;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        .envelope-hint {
-            font-size: 0.8rem;
-            color: var(--secondary-pink);
-            margin-bottom: 10px;
-            animation: bounce 2s infinite;
-        }
-
-        @keyframes bounce {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .envelope {
-            position: relative;
-            width: 240px;
-            height: 140px;
-            background: var(--secondary-pink);
-            margin: 0 auto;
-            border-radius: 8px 8px 4px 4px;
-            box-shadow: 0 15px 35px rgba(255, 77, 109, 0.2);
-            transition: transform 0.4s;
-        }
-
-        .envelope:hover {
-            transform: translateY(-5px);
-        }
-
-        .flap {
-            position: absolute;
-            top: 0; left: 0;
-            width: 0; height: 0;
-            border-left: 120px solid transparent;
-            border-right: 120px solid transparent;
-            border-top: 75px solid var(--primary-pink);
-            transform-origin: top;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 4;
-            border-radius: 8px 8px 0 0;
-        }
-
-        .envelope-front {
-            position: absolute;
-            bottom: 0; left: 0;
-            width: 100%; height: 100%;
-            border-left: 120px solid #ff9db2;
-            border-right: 120px solid #ff9db2;
-            border-bottom: 70px solid #ff8fa3;
-            border-top: 70px solid transparent;
-            z-index: 3;
-            pointer-events: none;
-            border-radius: 0 0 4px 4px;
-        }
-
-        .letter {
-            position: absolute;
-            bottom: 0; left: 10px; right: 10px;
-            background: white;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            font-size: 0.95rem;
-            color: var(--text-dark);
-            text-align: center;
-            z-index: 2;
-            height: 90px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-            overflow: hidden;
-            border: 1px solid var(--light-pink);
-        }
-
-        .envelope.open .flap {
-            transform: rotateX(180deg);
-            z-index: 1;
-        }
-
-        .envelope.open .letter {
-            transform: translateY(-60px);
-            height: 160px;
-            z-index: 5;
-        }
-
-        /* Confetti particles */
-        .confetti {
-            position: absolute;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        @media (max-width: 480px) {
-            h1 { font-size: 2.8rem; }
-            .glass-card { padding: 2.5rem 1.5rem; }
-            .buttons-container { flex-direction: row; gap: 1rem; }
-            button { padding: 0.7rem 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Falling ambient hearts -->
-    <div id="bg-hearts-container"></div>
+    <canvas id="confetti"></canvas>
 
-    <!-- Main Content Card -->
-    <div class="glass-card" id="main-card">
+    <div class="glass-card">
         
-        <!-- Step 1: The Question -->
-        <div id="initial-view">
-            <h1>Hey Andreea</h1>
-            <p class="question">Will you go out on a date with me?</p>
+        <!-- STEP 1: The Question -->
+        <div id="step-1" class="step active">
+            <div class="heart-icon">💖</div>
+            <h1 class="title">Hei Frumoaso...</h1>
+            <p class="subtitle">Vrei să ieși cu mine la o întâlnire?</p>
             
-            <div class="heart-container">
-                <!-- Premium SVG Heart -->
-                <svg class="main-heart" viewBox="0 0 32 29.6">
-                    <defs>
-                        <linearGradient id="heartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" stop-color="#ff758f" />
-                            <stop offset="100%" stop-color="#ff4d6d" />
-                        </linearGradient>
-                    </defs>
-                    <path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2
-                    c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z"/>
-                </svg>
-            </div>
-
-            <div class="buttons-container">
-                <button id="yes-btn">YES</button>
-                <button id="no-btn">NO</button>
+            <div class="btn-container" id="btn-container">
+                <button class="btn-yes" onclick="goToStep2()">DA</button>
+                <button class="btn-no" id="btn-no">NU</button>
             </div>
         </div>
 
-        <!-- Step 2: The Success State -->
-        <div id="success-view" class="hidden">
-            <h1>Yay! 🥰</h1>
-            <p class="success-text">
-                I knew you'd say <b>YES!</b><br><br>
-                A standard screenshot has been sent! Check your messages, let's plan our magical date! 🌹
-            </p>
+        <!-- STEP 2: Activity Selection -->
+        <div id="step-2" class="step">
+            <h1 class="title" style="font-size: 2.8rem;">Am știut! 🥰</h1>
+            <p class="subtitle">Acum că ai deschis plicul...<br>Ce ai vrea să facem?</p>
+            
+            <div class="activities-grid">
+                <button class="activity-btn" onclick="selectActivity('🎬 Film')">🎬 Film</button>
+                <button class="activity-btn" onclick="selectActivity('🚶‍♀️ Plimbare')">🚶‍♀️ Plimbare</button>
+                <button class="activity-btn" onclick="selectActivity('✨ Alte activități')">✨ Alte activități</button>
+            </div>
+        </div>
 
-            <div class="envelope-wrapper" id="envelope-wrapper">
-                <div class="envelope-hint">Tap to open... 💌</div>
-                <div class="envelope" id="envelope">
-                    <div class="flap"></div>
-                    <div class="envelope-front"></div>
-                    <div class="letter">
-                        You mean the world to me.<br>
-                        I can't wait to see you! ✨
-                    </div>
+        <!-- STEP 3: Date & Time Selection -->
+        <div id="step-3" class="step">
+            <h1 class="title" style="font-size: 2.5rem;">Când ne vedem?</h1>
+            
+            <div class="calendar-wrapper">
+                <div class="calendar-header">
+                    <span id="month-year"></span>
+                </div>
+                <div class="calendar-grid" id="calendar-grid">
+                    <!-- Days injected via JS -->
                 </div>
             </div>
+
+            <div class="time-container">
+                <input type="time" id="time-picker" value="19:00">
+            </div>
+
+            <button class="confirm-btn" onclick="goToStep4()">Confirmă Data ❤️</button>
+        </div>
+
+        <!-- STEP 4: Final Success -->
+        <div id="step-4" class="step">
+            <div class="heart-icon">🌹</div>
+            <h1 class="title" style="font-size: 3rem;">Perfect!</h1>
+            <p class="subtitle">Iată detaliile întâlnirii noastre:</p>
+            
+            <div class="summary-text">
+                📍 <b>Activitate:</b> <span id="summary-activity"></span><br>
+                🗓️ <b>Data:</b> <span id="summary-date"></span><br>
+                ⏰ <b>Ora:</b> <span id="summary-time"></span>
+            </div>
+            
+            <p style="margin-top: 20px; font-weight: 600; color: #d81b60;">Fă un screenshot și trimite-mi-l! Abia aștept! 🥰</p>
         </div>
 
     </div>
 
     <script>
-        // --- 1. Background Falling Hearts ---
-        function createBackgroundHearts() {
-            const container = document.getElementById('bg-hearts-container');
-            const heartChars = ['🤍', '🌸', '✨', '💖'];
-            const numberOfHearts = 25;
+        /* --- Background Floating Hearts --- */
+        function createHearts() {
+            const hearts = ["❤️", "💖", "💕", "🌸", "✨"];
+            setInterval(() => {
+                const heart = document.createElement("div");
+                heart.classList.add("heart-bg");
+                heart.innerText = hearts[Math.floor(Math.random() * hearts.length)];
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = Math.random() * 3 + 4 + "s";
+                heart.style.fontSize = Math.random() * 15 + 10 + "px";
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 7000);
+            }, 300);
+        }
+        createHearts();
 
-            for (let i = 0; i < numberOfHearts; i++) {
-                const heart = document.createElement('div');
-                heart.className = 'falling-heart';
-                heart.innerText = heartChars[Math.floor(Math.random() * heartChars.length)];
-                
-                // Randomize positions and animations
-                heart.style.left = `${Math.random() * 100}vw`;
-                heart.style.fontSize = `${Math.random() * 1.5 + 0.8}rem`;
-                heart.style.animationDuration = `${Math.random() * 5 + 6}s`; // 6s to 11s
-                heart.style.animationDelay = `${Math.random() * 5}s`;
-                
-                container.appendChild(heart);
+        /* --- Teleporting NO Button --- */
+        const btnNo = document.getElementById('btn-no');
+        const container = document.getElementById('btn-container');
+
+        // Set absolute position based on normal layout to avoid jumping before hover
+        setTimeout(() => {
+            const rect = btnNo.getBoundingClientRect();
+            const containerRect = container.getBoundingClientRect();
+            btnNo.style.right = "0px"; 
+            btnNo.style.top = "0px";
+        }, 100);
+
+        function teleportButton() {
+            // Get viewport dimensions
+            const windowWidth = window.innerWidth;
+            const windowHeight = window.innerHeight;
+            
+            // Get button dimensions
+            const btnWidth = btnNo.offsetWidth;
+            const btnHeight = btnNo.offsetHeight;
+            
+            // Calculate random positions (ensuring it stays within screen bounds)
+            const randomX = Math.random() * (windowWidth - btnWidth - 40);
+            const randomY = Math.random() * (windowHeight - btnHeight - 40);
+            
+            // Move button to body level for true viewport teleportation
+            btnNo.style.position = 'fixed';
+            btnNo.style.left = `${randomX}px`;
+            btnNo.style.top = `${randomY}px`;
+            
+            // Micro-interaction: shrink slightly
+            let currentScale = parseFloat(btnNo.style.transform.replace('scale(', '').replace(')', '')) || 1;
+            if(currentScale > 0.6) {
+                btnNo.style.transform = `scale(${currentScale - 0.05})`;
             }
         }
-        createBackgroundHearts();
 
-        // --- 2. Advanced "NO" Button Runaway Logic ---
-        const noBtn = document.getElementById('no-btn');
-        let noBtnScale = 1;
-        let isAbsolute = false;
-
-        function runAway(e) {
-            // Prevent default touch behavior (like scrolling or registering a click)
-            if (e.type === 'touchstart') e.preventDefault();
-
-            if (!isAbsolute) {
-                // Change to fixed positioning relative to viewport on first hover
-                isAbsolute = true;
-                noBtn.style.position = 'fixed';
-                // Move element to body to ensure it isn't clipped by any hidden overflow
-                document.body.appendChild(noBtn);
-            }
-
-            // Calculate bounds to keep button strictly within the screen
-            const btnWidth = noBtn.offsetWidth;
-            const btnHeight = noBtn.offsetHeight;
-            const maxX = window.innerWidth - btnWidth;
-            const maxY = window.innerHeight - btnHeight;
-
-            // Generate new random coordinates safely inside the viewport
-            const newX = Math.max(0, Math.random() * maxX);
-            const newY = Math.max(0, Math.random() * maxY);
-
-            // Apply new position
-            noBtn.style.left = `${newX}px`;
-            noBtn.style.top = `${newY}px`;
-
-            // Micro-interaction: Shrink slightly every time it escapes
-            noBtnScale = Math.max(0.4, noBtnScale - 0.08); // Never shrink below 40%
-            noBtn.style.transform = `scale(${noBtnScale})`;
-        }
-
-        // Catch both mouse and touch events early
-        noBtn.addEventListener('mouseover', runAway);
-        noBtn.addEventListener('touchstart', runAway, { passive: false });
-        // Just in case they somehow manage to click it
-        noBtn.addEventListener('click', (e) => {
+        btnNo.addEventListener('mouseover', teleportButton);
+        btnNo.addEventListener('touchstart', (e) => {
             e.preventDefault();
-            runAway(e);
+            teleportButton();
         });
 
+        /* --- Global State --- */
+        let selectedActivity = "";
+        let selectedDate = "";
+        let selectedTime = "";
 
-        // --- 3. "YES" Button Success State & Confetti ---
-        const yesBtn = document.getElementById('yes-btn');
-        const initialView = document.getElementById('initial-view');
-        const successView = document.getElementById('success-view');
+        /* --- Step Transitions --- */
+        function switchStep(fromId, toId) {
+            const fromEl = document.getElementById(fromId);
+            const toEl = document.getElementById(toId);
+            fromEl.classList.remove('active');
+            setTimeout(() => {
+                fromEl.style.display = 'none';
+                toEl.style.display = 'block';
+                setTimeout(() => { toEl.classList.add('active'); }, 50);
+            }, 600);
+        }
+
+        function goToStep2() {
+            triggerConfetti();
+            btnNo.style.display = 'none'; // hide the wandering button permanently
+            switchStep('step-1', 'step-2');
+        }
+
+        function selectActivity(activity) {
+            selectedActivity = activity;
+            renderCalendar();
+            switchStep('step-2', 'step-3');
+        }
+
+        function goToStep4() {
+            selectedTime = document.getElementById('time-picker').value;
+            if(!selectedDate) {
+                alert("Te rog, alege o zi din calendar! ❤️");
+                return;
+            }
+            
+            document.getElementById('summary-activity').innerText = selectedActivity;
+            document.getElementById('summary-date').innerText = selectedDate;
+            document.getElementById('summary-time').innerText = selectedTime;
+            
+            triggerConfetti();
+            switchStep('step-3', 'step-4');
+        }
+
+        /* --- Calendar Logic --- */
+        const monthNames = ["Ianuarie", "Februarie", "Martie", "Aprilie", "Mai", "Iunie", "Iulie", "August", "Septembrie", "Octombrie", "Noiembrie", "Decembrie"];
+        let currentDate = new Date();
+
+        function renderCalendar() {
+            const grid = document.getElementById('calendar-grid');
+            const monthYearText = document.getElementById('month-year');
+            
+            const month = currentDate.getMonth();
+            const year = currentDate.getFullYear();
+            
+            monthYearText.innerText = `${monthNames[month]} ${year}`;
+            grid.innerHTML = '';
+
+            // Add day names
+            const days = ['Lu', 'Ma', 'Mi', 'Jo', 'Vi', 'Sâ', 'Du'];
+            days.forEach(day => {
+                const dayEl = document.createElement('div');
+                dayEl.classList.add('day-name');
+                dayEl.innerText = day;
+                grid.appendChild(dayEl);
+            });
+
+            const firstDay = new Date(year, month, 1).getDay();
+            const daysInMonth = new Date(year, month + 1, 0).getDate();
+            
+            // Adjust first day (Monday = 0, Sunday = 6)
+            let startDay = firstDay === 0 ? 6 : firstDay - 1;
+
+            // Empty slots
+            for (let i = 0; i < startDay; i++) {
+                const empty = document.createElement('div');
+                empty.classList.add('calendar-day', 'empty');
+                grid.appendChild(empty);
+            }
+
+            // Days
+            for (let i = 1; i <= daysInMonth; i++) {
+                const dayBtn = document.createElement('div');
+                dayBtn.classList.add('calendar-day');
+                dayBtn.innerText = i;
+                
+                dayBtn.onclick = function() {
+                    document.querySelectorAll('.calendar-day').forEach(d => d.classList.remove('selected'));
+                    dayBtn.classList.add('selected');
+                    selectedDate = `${i} ${monthNames[month]} ${year}`;
+                };
+                
+                grid.appendChild(dayBtn);
+            }
+        }
+
+        /* --- Confetti Logic --- */
+        const canvas = document.getElementById('confetti');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        let particles = [];
+        const colors = ['#ff8fab', '#fb6f92', '#ffb3c6', '#ffc2d1', '#ffffff'];
 
         function triggerConfetti() {
-            const colors = ['#ff4d6d', '#ff758f', '#ff8fa3', '#ffb3c1', '#ffffff'];
-            const amount = 80;
-
-            for (let i = 0; i < amount; i++) {
-                const confetti = document.createElement('div');
-                confetti.className = 'confetti';
-                
-                // SVG Confetti heart
-                confetti.innerHTML = `<svg viewBox="0 0 32 29.6" width="15" height="15"><path d="M23.6,0c-3.4,0-6.3,2.7-7.6,5.6C14.7,2.7,11.8,0,8.4,0C3.8,0,0,3.8,0,8.4c0,9.4,9.5,11.9,16,21.2c6.1-9.3,16-12.1,16-21.2C32,3.8,28.2,0,23.6,0z" fill="${colors[Math.floor(Math.random() * colors.length)]}"/></svg>`;
-
-                // Start from center of screen
-                confetti.style.left = '50%';
-                confetti.style.top = '50%';
-
-                document.body.appendChild(confetti);
-
-                // Math for explosion physics
-                const angle = Math.random() * Math.PI * 2;
-                const velocity = 100 + Math.random() * 400; // random velocity
-                const tx = Math.cos(angle) * velocity;
-                const ty = Math.sin(angle) * velocity;
-                
-                // Animate using Web Animations API for smooth performance without external libraries
-                const animation = confetti.animate([
-                    { transform: `translate(-50%, -50%) scale(0)`, opacity: 1 },
-                    { transform: `translate(calc(-50% + ${tx}px), calc(-50% + ${ty}px)) scale(${Math.random() + 0.5}) rotate(${Math.random() * 360}deg)`, opacity: 0 }
-                ], {
-                    duration: Math.random() * 1000 + 1500, // 1.5s to 2.5s
-                    easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-                    fill: 'forwards'
+            particles = [];
+            for (let i = 0; i < 150; i++) {
+                particles.push({
+                    x: canvas.width / 2,
+                    y: canvas.height / 2 + 100,
+                    r: Math.random() * 6 + 2,
+                    dx: Math.random() * 10 - 5,
+                    dy: Math.random() * -10 - 5,
+                    color: colors[Math.floor(Math.random() * colors.length)]
                 });
-
-                // Clean up DOM after animation
-                animation.onfinish = () => confetti.remove();
             }
+            animateConfetti();
         }
 
-        yesBtn.addEventListener('click', () => {
-            // Hide NO button if it ran away to the body
-            if (isAbsolute) noBtn.style.display = 'none';
-
-            // Fire beautiful explosion
-            triggerConfetti();
-
-            // Smooth UI Transition
-            initialView.style.display = 'none';
-            successView.classList.remove('hidden');
-            
-            // Allow display block to render before triggering opacity fade-in
-            requestAnimationFrame(() => {
-                successView.style.opacity = '1';
+        function animateConfetti() {
+            requestAnimationFrame(animateConfetti);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach((p, index) => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                p.x += p.dx;
+                p.y += p.dy;
+                p.dy += 0.2; // gravity
+                if (p.y > canvas.height) particles.splice(index, 1);
             });
-        });
-
-        // --- 4. Interactive Love Note ---
-        const envelopeWrapper = document.getElementById('envelope-wrapper');
-        const envelope = document.getElementById('envelope');
-        const envelopeHint = document.querySelector('.envelope-hint');
-
-        envelopeWrapper.addEventListener('click', () => {
-            envelope.classList.toggle('open');
-            // Hide hint once discovered
-            if (envelope.classList.contains('open')) {
-                envelopeHint.style.opacity = '0';
-                envelopeHint.style.transition = 'opacity 0.3s';
-            }
+        }
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
         });
     </script>
 </body>
